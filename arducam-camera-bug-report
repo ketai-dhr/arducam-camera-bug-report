@@ -4,11 +4,11 @@
 # Copyright (C) 2022, Arducam.
 #
 import argparse
-from datetime import datetime
 import select
 import subprocess
 import sys
 import time
+from datetime import datetime
 
 
 class Report:
@@ -48,7 +48,8 @@ def run_prog(cmd, t):
     out = []
     try:
         start = time.time()
-        p = subprocess.Popen(cmd, text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, errors='ignore')
+        p = subprocess.Popen(cmd, text=True, stdout=subprocess.PIPE,
+                             stderr=subprocess.STDOUT, errors='ignore')
         poll = select.poll()
         poll.register(p.stdout, select.POLLIN)
 
@@ -74,11 +75,14 @@ def run_prog(cmd, t):
 
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='libcamera-apps Bug Report Generator')
-    parser.add_argument('-o', help='Report filename', type=str, default='arducam-bug-report.txt')
+    parser = argparse.ArgumentParser(
+        description='libcamera-apps Bug Report Generator')
+    parser.add_argument('-o', help='Report filename',
+                        type=str, default='arducam-bug-report.txt')
     parser.add_argument('-t', help='Timeout (seconds) for the command to run. A value of 0 \
                                     disables the timeout.', type=float, default=0)
-    parser.add_argument('-c', help='Command to run, e.g. -c "libcamera-still -t 5000 -o test.jpg"', type=str, default='libcamera-still -n -t 5000 -o test.jpg')
+    parser.add_argument('-c', help='Command to run, e.g. -c "libcamera-still -t 5000 -o test.jpg"',
+                        type=str, default='libcamera-still -n -t 5000 -o test.jpg')
     args = parser.parse_args()
 
     app = args.c.split(" ")[0]
@@ -86,7 +90,8 @@ if __name__ == '__main__':
     reports = []
     with open(args.o, 'wt') as file:
         title = Report('libcamera-apps Bug Report', file)
-        title.add_str(f'Date: {datetime.now().strftime("%d-%m-%Y (%H:%M:%S)")}')
+        title.add_str(
+            f'Date: {datetime.now().strftime("%d-%m-%Y (%H:%M:%S)")}')
         title.add_str(f'Command: {" ".join(sys.argv)}\n')
         reports.append(title)
 
