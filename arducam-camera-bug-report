@@ -112,6 +112,7 @@ if __name__ == '__main__':
         config = Report('Configuration', file)
         config.add_cmd('cat /boot/config.txt')
         config.add_cmd('ls /boot/overlays/* | grep arducam')
+        config.add_cmd('ls /boot/overlays/* | grep imx')
         config.add_cmd('ls /lib/modules/$(uname -r)/kernel/drivers/media/i2c')
         reports.append(config)
 
