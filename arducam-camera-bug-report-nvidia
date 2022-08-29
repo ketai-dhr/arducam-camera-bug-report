@@ -18,9 +18,6 @@ def run_cmd(cmd):
         # print(p.stdout, file=self._file)
     except RuntimeError as e:
         print(f'Error: {e}')
-# height_ = run_cmd("v4l2-ctl --list-formats-ext | grep Discrete | head -n 1 | awk -F 'x' '{print $1}' | sed 's/[^0-9]//g'").stdout
-# width_ = run_cmd("`v4l2-ctl --list-formats-ext | grep Discrete | head -n 1 | awk -F 'x' '{print $2}'`").stdout
-# print(height_)
 
 class Report:
     def __init__(self, id, file):
@@ -107,6 +104,10 @@ if __name__ == '__main__':
         title.add_str(f'Command: {" ".join(sys.argv)}\n')
         reports.append(title)
 
+        env = Report('Software Environment', file)
+        env.add_cmd('sudo apt install -y v4l-utils')
+        reports.append(env)
+
         hwinfo = Report('Hardware information', file)
         hwinfo.add_cmd('hostname')
         hwinfo.add_cmd('uname -r')
@@ -127,7 +128,7 @@ if __name__ == '__main__':
         height_ = run_cmd(height).stdout.strip()
         width_ = run_cmd(width).stdout.strip()
         cmds.add_cmd("timeout 5s v4l2-ctl --set-fmt-video=width={},height={},pixelformat=RG10 --set-ctrl bypass_mode=0 --stream-mmap".format(width_, height_))
-        cmds.add_cmd("timeout 10s gst-launch-1.0 nvarguscamerasrc ! 'video/x-raw(memory:NVMM),width={},height={},format=NV12' ! nvvidconv ! fpsdisplaysink video-sink=fakesink --verbose".format(width_, height_))
+        cmds.add_cmd("gst-launch-1.0 nvarguscamerasrc sensor-id=0 num-buffers=1 ! 'video/x-raw(memory:NVMM),format=(string)NV12, width=(int){}, height=(int){},framerate=10/1' ! nvjpegenc ! filesink location=test.jpg".format(width_, height_))
         reports.append(cmds)
 
         logs = Report('Logs', file)
