@@ -12,7 +12,7 @@ from datetime import datetime
 
 def run_cmd(cmd):
     try:
-        p = subprocess.run(cmd, text=True, check=False, shell=True,
+        p = subprocess.run(cmd, universal_newlines=True, check=False, shell=True,
                             stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
         return p
         # print(p.stdout, file=self._file)
@@ -29,7 +29,7 @@ class Report:
     def __run_cmd(self, cmd):
         print(f'** {cmd} **', file=self._file)
         try:
-            p = subprocess.run(cmd, text=True, check=False, shell=True,
+            p = subprocess.run(cmd, universal_newlines=True, check=False, shell=True,
                                stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
             print(p.stdout, file=self._file)
         except RuntimeError as e:
@@ -128,7 +128,8 @@ if __name__ == '__main__':
         height_ = run_cmd(height).stdout.strip()
         width_ = run_cmd(width).stdout.strip()
         cmds.add_cmd("timeout 5s v4l2-ctl --set-fmt-video=width={},height={},pixelformat=RG10 --set-ctrl bypass_mode=0 --stream-mmap".format(width_, height_))
-        cmds.add_cmd("gst-launch-1.0 nvarguscamerasrc sensor-id=0 num-buffers=1 ! 'video/x-raw(memory:NVMM),format=(string)NV12, width=(int){}, height=(int){},framerate=10/1' ! nvjpegenc ! filesink location=test.jpg".format(width_, height_))
+        cmds.add_cmd("gst-launch-1.0 nvarguscamerasrc sensor-id=0 num-buffers=1 ! 'video/x-raw(memory:NVMM),format=(string)NV12, width=(int){}, height=(int){},framerate=10/1' ! nvjpegenc ! filesink location=arducam-test.jpg".format(width_, height_))
+        cmds.add_cmd("ls -lh | grep arducam-test.jpg")
         reports.append(cmds)
 
         logs = Report('Logs', file)
