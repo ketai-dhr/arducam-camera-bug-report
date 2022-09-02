@@ -3,6 +3,7 @@
 # Arducam libcamera-apps bug report generator.
 # Copyright (C) 2022, Arducam.
 #
+
 import argparse
 import select
 import subprocess
