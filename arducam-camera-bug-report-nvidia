@@ -143,3 +143,4 @@ if __name__ == '__main__':
 
         print(f'\nBug report generated to {args.o}')
         print('Please upload this file when you contact support@arducom.com')
+ 
