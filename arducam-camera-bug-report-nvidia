@@ -144,7 +144,6 @@ if __name__ == '__main__':
         cmd_test2 = Report(cmd_test2_command, file)
         cmd_out_test2 = run_prog(cmd_test2, 10)
         cmd_test2.add_str(cmd_out_test2)
-        cmd_test2.add_str(cmd_out_test2)
         cmd_test2.add_cmd("ls arducam-test.jpg")
         reports.append(cmd_test2)
         
