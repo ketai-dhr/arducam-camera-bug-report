@@ -124,12 +124,6 @@ if __name__ == '__main__':
         ver.add_cmd('cat /etc/nv_tegra_release')
         reports.append(ver)
 
-        logs = Report('Logs', file)
-        logs.add_cmd('dmesg | grep arducam')
-        logs.add_cmd('dmesg | grep imx')
-        logs.add_cmd('dmesg')
-        reports.append(logs)
-        
         height_ = run_cmd(height).stdout.strip()
         width_ = run_cmd(width).stdout.strip()        
         cmd_test1_command = "timeout 5s v4l2-ctl --set-fmt-video=width={},height={},pixelformat=RG10 --set-ctrl bypass_mode=0 --stream-mmap".format(width_, height_)
@@ -144,8 +138,15 @@ if __name__ == '__main__':
         cmd_test2 = Report(cmd_test2_command, file)
         cmd_out_test2 = run_prog(cmd_test2_command, 10)
         cmd_test2.add_str(cmd_out_test2)
-        cmd_test2.add_cmd("ls arducam-test.jpg")
         reports.append(cmd_test2)
+
+        logs = Report('Logs', file)
+        logs.add_cmd('ls arducam-test.jpg')
+        logs.add_cmd('dmesg | grep arducam')
+        logs.add_cmd('dmesg | grep imx')
+        logs.add_cmd('dmesg')
+        reports.append(logs)
+        
         
         for r in reports:
             r.exec()
