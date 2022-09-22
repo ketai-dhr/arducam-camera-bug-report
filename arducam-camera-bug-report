@@ -82,8 +82,8 @@ if __name__ == '__main__':
                         type=str, default='arducam-bug-report.txt')
     parser.add_argument('-t', help='Timeout (seconds) for the command to run. A value of 0 \
                                     disables the timeout.', type=float, default=0)
-    parser.add_argument('-c', help='Command to run, e.g. -c "libcamera-still -t 5000 -o arducam-test.jpg"',
-                        type=str, default='libcamera-still -n -t 5000 -o test.jpg')
+    parser.add_argument('-c', help='Command to run, e.g. -c "libcamera-still -t 5000 -n -o arducam-test.jpg"',
+                        type=str, default='libcamera-still -n -t 1000 -o arducam-test.jpg --width 1920 --height 1080')
     args = parser.parse_args()
 
     app = args.c.split(" ")[0]
@@ -141,19 +141,18 @@ if __name__ == '__main__':
             # Report for the command output
             cmd = Report(args.c, file)
             cmd.add_str(cmd_out)
-            cmd.add_cmd("ls arducam-test.jpg")
             reports.append(cmd)
 
-        for r in reports:
-            r.exec()
-            
-        
         logs = Report('Logs', file)
+        logs.add_cmd("ls -lh arducam-test.jpg")
         logs.add_cmd('dmesg | grep arducam')
         logs.add_cmd('dmesg | grep imx')
         logs.add_cmd('dmesg | grep ov9281')
         logs.add_cmd('dmesg')
         reports.append(logs)
+        
+        for r in reports:
+            r.exec()
 
         print(f'\nBug report generated to {args.o}')
         print('Please upload this file when you contact support@arducom.com')
