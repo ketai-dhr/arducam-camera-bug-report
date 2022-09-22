@@ -114,7 +114,7 @@ if __name__ == '__main__':
         config.add_cmd('cat /boot/config.txt')
         config.add_cmd('ls /boot/overlays/* | grep arducam')
         config.add_cmd('ls /boot/overlays/* | grep imx')
-        config.add_cmd('ls /boot/overlays/* | grep ov')
+#         config.add_cmd('ls /boot/overlays/* | grep ov')
         config.add_cmd('ls /lib/modules/$(uname -r)/kernel/drivers/media/i2c')
         reports.append(config)
 
@@ -133,12 +133,6 @@ if __name__ == '__main__':
         ver.add_cmd('cat /etc/os-release')
         reports.append(ver)
 
-        logs = Report('Logs', file)
-        logs.add_cmd('dmesg | grep arducam')
-        logs.add_cmd('dmesg | grep imx')
-        logs.add_cmd('dmesg | grep ov')
-        logs.add_cmd('dmesg')
-        reports.append(logs)
 
         # Run the actual application before executing the reports!
         if args.c:
@@ -152,6 +146,14 @@ if __name__ == '__main__':
 
         for r in reports:
             r.exec()
+            
+        
+        logs = Report('Logs', file)
+        logs.add_cmd('dmesg | grep arducam')
+        logs.add_cmd('dmesg | grep imx')
+        logs.add_cmd('dmesg | grep ov9281')
+        logs.add_cmd('dmesg')
+        reports.append(logs)
 
         print(f'\nBug report generated to {args.o}')
         print('Please upload this file when you contact support@arducom.com')
