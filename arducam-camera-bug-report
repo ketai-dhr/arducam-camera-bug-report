@@ -1,7 +1,9 @@
 #!/usr/bin/python3
 #
+# This file is part of the libcamera-apps package (https://github.com/raspberrypi/libcamera-apps/blob/main/utils/camera-bug-report).
+# Copyright (c) 2023 naushir.
+#
 # Arducam libcamera-apps bug report generator.
-# Copyright (C) 2022, Arducam.
 #
 
 import argparse
@@ -116,6 +118,7 @@ if __name__ == '__main__':
         config.add_cmd('ls /boot/overlays/* | grep imx')
 #         config.add_cmd('ls /boot/overlays/* | grep ov')
         config.add_cmd('ls /lib/modules/$(uname -r)/kernel/drivers/media/i2c')
+        config.add_cmd('i2cdetect -y -r 10')
         reports.append(config)
 
         mem = Report('Memory', file)
