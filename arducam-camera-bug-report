@@ -116,6 +116,7 @@ if __name__ == '__main__':
         config.add_cmd('ls /boot/overlays/* | grep imx')
 #         config.add_cmd('ls /boot/overlays/* | grep ov')
         config.add_cmd('ls /lib/modules/$(uname -r)/kernel/drivers/media/i2c')
+        config.add_cmd('i2cdetect -y -r 10')
         reports.append(config)
 
         mem = Report('Memory', file)
