@@ -1,7 +1,9 @@
 #!/usr/bin/python3
 #
+# This file is part of the libcamera-apps package (https://github.com/raspberrypi/libcamera-apps/blob/main/utils/camera-bug-report).
+# Copyright (c) 2023 naushir.
+#
 # Arducam libcamera-apps bug report generator.
-# Copyright (C) 2022, Arducam.
 #
 
 import argparse
